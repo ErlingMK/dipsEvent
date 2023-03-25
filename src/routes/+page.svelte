@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { apiData, events, type event } from '../models/event';
 	import Header from '../Header.svelte';
 
 	export let data: import('./$types').PageData;
@@ -10,41 +8,59 @@
 	}
 </script>
 
-<div class="jumbotron text-center">
-	<h1>DIPS Event</h1>
+<div class="text-center p-5 header">
+	<h3 class="mb-8 text-3xl font-bold header-text">DIPS Event</h3>
 </div>
 
-<div class="container">
-	<div class="row">
-		<div class="col-sm-4">
-			<Header nextEvent={resolveNext(data.item)} />
-		</div>
-		<div class="col-sm-7">
-			<ul class="list-group">
-				{#each data.item as { title, date, description, location }}
-					<li class="list-group-item">
-						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">{title}</h5>
-							<small>{date}</small>
-						</div>
-						<p class="mb-1">
-							{description}
-						</p>
-						<small>{location}</small>
-					</li>
-				{/each}
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<ul>
-			<li>#dips-padel</li>
-			<li>#dips-brettspill</li>
-			<li>#dips-bading</li>
-		</ul>
-	</div>
+<div class="grid">
+	<ul class="flex flex-wrap p-5">
+		{#each data.item as { display, events }}
+			<li>
+				<p>{display}</p>
+				<ul class="divide-y divide-gray-200">
+					{#each events as { title, date, description, location }}
+						<li class="highlighted rounded-md shadow-md p-5">
+							<div class="grid grid-cols-2">
+								<p class="font-medium">{title}</p>
+								<small class="justify-self-end italic">{date}</small>
+							</div>
+							<p class="max-w-md">
+								{description}
+							</p>
+							<small class="italic">
+								{location}
+							</small>
+						</li>
+					{/each}
+				</ul>
+			</li>
+		{/each}
+	</ul>
 </div>
 
-<style>
+<style lang="postcss">
+	:global(html) {
+		background: #f4f5f5;
+	}
 
+	.highlighted {
+		background-color: white;
+	}
+
+	li {
+		margin-bottom: 10px;
+		margin-right: 10px;
+	}
+
+	p {
+		color: #262626;
+	}
+
+	.header {
+		background: #050948;
+	}
+
+	.header-text {
+		color: #ffffff;
+	}
 </style>
